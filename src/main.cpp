@@ -1,7 +1,6 @@
-#include "net/net.hpp"
+#include "cache.hpp"
 
 int main(int argc, char** argv)
 {
-    auto x = Net();
-    x.Open("/tmp/test.db");
+    auto x = Cache("/tmp/test.db");
 }
