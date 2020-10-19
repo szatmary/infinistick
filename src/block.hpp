@@ -1,4 +1,5 @@
 #pragma once
+#include <cinttypes>
 #include <vector>
 
 // TODO Compress, Encrypt, Sign

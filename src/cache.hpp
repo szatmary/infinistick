@@ -11,13 +11,20 @@ public:
 private:
     std::unique_ptr<sqlite3, void (*)(sqlite3*)> sqlite;
 
+    Cache();
+    Cache(sqlite3*);
+
 public:
-    Cache(std::string cacheDb);
+    static std::shared_ptr<Cache> New(std::string cacheDb);
 
     void Clean();
-    BlockDevice NewBlockDevice(int blockSize, int blockCount);
-    BlockDevice OpenBlockDevice(std::string url, int blockSize, int blockCount);
+    // friendly name
+    BlockDevice NewBlockDevice(std::string name, int blockSize, int blockCount);
+    // BlockDevice OpenBlockDevice(int32 deviceId);
 
-    int Get(Block& block);
-    int Put(const Block& block);
+    std::shared_ptr<BlockDevice> GetBlockDevice(int deviceId);
+    std::vector<std::shared_ptr<BlockDevice>> ListBlockDevices();
+
+    bool GetBlock(Block& block);
+    bool PutBlock(const Block& block);
 };

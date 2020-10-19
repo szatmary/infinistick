@@ -10,6 +10,11 @@ set(SOURCES
       ${CMAKE_SOURCE_DIR}/src/sqlite/sqlite3.c
 )
 
+include_directories(/usr/include/fuse3)
 
-add_executable(test ${SOURCES} ${CMAKE_SOURCE_DIR}/src/main.cpp)
-target_link_libraries(test curl)
+# add_executable(test ${SOURCES} ${CMAKE_SOURCE_DIR}/src/main.cpp)
+# target_link_libraries(test dl pthread)
+
+
+add_executable(mount ${SOURCES} ${CMAKE_SOURCE_DIR}/src/mount.cpp)
+target_link_libraries(mount dl fuse3 pthread)
