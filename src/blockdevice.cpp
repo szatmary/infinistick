@@ -14,14 +14,17 @@ int BlockDevice::Read(char* buf, size_t size, off_t offset)
         return 0;
     }
 
-    auto block = Block { deviceId, blockNo };
     auto blockOffset = offset - (blockNo * blockSize);
     auto readSize = std::min(size, static_cast<size_t>(blockSize - blockOffset));
     std::cerr << "BlockDevice::Read " << blockNo << " " << blockOffset << " " << readSize << std::endl;
 
-    cache->GetBlock(block); // TODO check return value
-    block.data.resize(blockSize);
+    // Check the local block
+    if (!block.data.empty() || block.blockNo != blockNo) {
+        block = Block { deviceId, blockNo };
+        cache->GetBlock(block); // TODO check return value
+    }
 
+    block.data.resize(blockSize);
     std::memcpy(buf, block.data.data() + blockOffset, readSize);
     return readSize + Read(buf + readSize, size - readSize, offset + readSize);
 }

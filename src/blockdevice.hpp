@@ -9,6 +9,7 @@ public:
     int deviceId;
     int blockSize;
     int blockCount;
+    Block block;
     std::shared_ptr<Cache> cache;
 
 public:
